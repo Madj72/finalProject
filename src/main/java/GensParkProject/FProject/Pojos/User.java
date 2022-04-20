@@ -12,23 +12,84 @@ import java.util.List;
 @Entity
 public class User implements UserDetails {
 
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name ="USER_NAME", unique = true)
+
+    @Column(name = "USER_NAME", unique = true)
     private String userName;
-    @Column(name ="USER_KEY")
+
+    @Column(name = "USER_KEY")
     private String password;
-    @Column(name ="CREATED_ON")
-    private Date createAt;
-    @Column(name ="UPDATED_ON")
+
+
+    @Column(name = "CREATED_ON")
+    private Date createdAt;
+
+    @Column(name = "UPDATED_ON")
     private Date updatedAt;
-    @Column(name ="first_name")
+
+    @Column(name = "first_name")
     private String firstName;
-    @Column(name ="last_name")
+
+    @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "enabled")
+    private boolean enabled=true;
+
+
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinTable(name = "AUTH_USER_AUTHORITY", joinColumns = @JoinColumn(referencedColumnName = "id"),inverseJoinColumns = @JoinColumn(referencedColumnName ="id"))
+    private List<Authority> authorities;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // TODO Auto-generated method stub
+        return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        // TODO Auto-generated method stub
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        // TODO Auto-generated method stub
+        return this.userName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        // TODO Auto-generated method stub
+        return this.enabled;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        // TODO Auto-generated method stub
+        return this.enabled;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // TODO Auto-generated method stub
+        return this.enabled;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        // TODO Auto-generated method stub
+        return this.enabled;
+    }
 
     public long getId() {
         return id;
@@ -46,16 +107,12 @@ public class User implements UserDetails {
         this.userName = userName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public Date getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Date getUpdatedAt() {
@@ -98,62 +155,18 @@ public class User implements UserDetails {
         this.phoneNumber = phoneNumber;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
-    public List<Authority> getAuthorityList() {
-        return authorityList;
-    }
-
-    public void setAuthorityList(List<Authority> authorityList) {
-        this.authorityList = authorityList;
-    }
-
-    @Column(name ="email")
-    private String email;
-    @Column(name ="phone_number")
-    private String phoneNumber;
-    @Column(name ="enabled")
-    private boolean enabled;
 
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "AUTH_USER_AUTHORITY",joinColumns = @JoinColumn(referencedColumnName ="id"),inverseJoinColumns = @JoinColumn(referencedColumnName = "id"))
-    private List<Authority> authorityList;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorityList;
-    }
-
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.userName;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return this.enabled;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return this.enabled;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return this.enabled;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.enabled;
-    }
 }

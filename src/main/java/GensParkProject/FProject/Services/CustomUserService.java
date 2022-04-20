@@ -1,8 +1,9 @@
 package GensParkProject.FProject.Services;
 
 
-import GensParkProject.FProject.Pojos.User;
+import GensParkProject.FProject.Pojos.*;
 import GensParkProject.FProject.Repositories.UserDetailRepo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
